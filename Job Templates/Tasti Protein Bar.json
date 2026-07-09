@@ -1,0 +1,72 @@
+{
+  "id": "job-1783549502219",
+  "templateId": null,
+  "productCode": "Tasti Protein Bar",
+  "customer": "Tasti",
+  "jobName": "P6691-01 Dark Choc Almond",
+  "printType": "SURFACE",
+  "materials": {
+    "primary": {
+      "id": "metbopp-28-695",
+      "material": "Met BOPP",
+      "micron": 28,
+      "width": 695,
+      "mPerKg": 35
+    },
+    "secondary": null
+  },
+  "press": {
+    "typicalSpeed": 0,
+    "unitCount": 6
+  },
+  "units": [
+    {
+      "number": 1,
+      "inkCode": "NL334W",
+      "inkName": "WB Primer",
+      "cylinder": "G2509953-3 G509952-3",
+      "factor": 0.00085,
+      "web": "primary"
+    },
+    {
+      "number": 2,
+      "inkCode": "NAT8629",
+      "inkName": "Anchorflex White",
+      "cylinder": "G2509953-4 G509952-4",
+      "factor": 0.0025,
+      "web": "primary"
+    },
+    {
+      "number": 3,
+      "inkCode": "ZV109044",
+      "inkName": "Blue",
+      "cylinder": "G2509954-5",
+      "factor": 0.002,
+      "web": "primary"
+    },
+    {
+      "number": 4,
+      "inkCode": "ZV108975",
+      "inkName": "GPL Black",
+      "cylinder": "G2509953-6 G509952-6",
+      "factor": 0.0004,
+      "web": "primary"
+    },
+    {
+      "number": 5,
+      "inkCode": "RESR001",
+      "inkName": "Valago CSRL",
+      "cylinder": "G2509953-7 G509952-7",
+      "factor": 0.002,
+      "web": "primary"
+    },
+    {
+      "number": 6,
+      "inkCode": "S8044",
+      "inkName": "Polarseal",
+      "cylinder": "G2509953-8 G509952-8",
+      "factor": 0.001,
+      "web": "primary"
+    }
+  ]
+}

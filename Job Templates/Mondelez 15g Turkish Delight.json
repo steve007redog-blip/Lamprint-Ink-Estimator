@@ -1,0 +1,80 @@
+{
+  "id": "job-1783404248358",
+  "templateId": null,
+  "productCode": "20143473",
+  "customer": "Mondelez",
+  "jobName": "Turkish Delight 15g",
+  "printType": "SURFACE",
+  "materials": {
+    "primary": {
+      "id": "metbopp-28-665",
+      "material": "Met BOPP",
+      "micron": 28,
+      "width": 665,
+      "mPerKg": 35
+    },
+    "secondary": null
+  },
+  "press": {
+    "typicalSpeed": 0,
+    "unitCount": 7
+  },
+  "units": [
+    {
+      "number": 1,
+      "inkCode": "NL334W",
+      "inkName": "WB Primer",
+      "cylinder": "A168116/1R1",
+      "factor": 0.00091,
+      "web": "primary"
+    },
+    {
+      "number": 2,
+      "inkCode": "NAT8629",
+      "inkName": "Anchorflex White",
+      "cylinder": "A168116/2R2",
+      "factor": 0.0003,
+      "web": "primary"
+    },
+    {
+      "number": 3,
+      "inkCode": "ZV9692",
+      "inkName": "Alfalam Turkish Delight Gold",
+      "cylinder": "A168116/3",
+      "factor": 0.0014,
+      "web": "primary"
+    },
+    {
+      "number": 4,
+      "inkCode": "ZV108880",
+      "inkName": "Alfalam Turkish Delight Pink",
+      "cylinder": "A168116/4R2",
+      "factor": 0.00135,
+      "web": "primary"
+    },
+    {
+      "number": 5,
+      "inkCode": "ZV108592",
+      "inkName": "Cadbury Purple",
+      "cylinder": "G2309147/5",
+      "factor": 0.0003,
+      "web": "primary"
+    },
+    {
+      "number": 6,
+      "inkCode": "RESR001",
+      "inkName": "Valago CSRL",
+      "cylinder": "A168116/6",
+      "factor": 0.00188,
+      "web": "primary"
+    },
+    {
+      "number": 7,
+      "inkCode": "S8044",
+      "inkName": "Polarseal",
+      "cylinder": "A168116/7R1",
+      "factor": 0.00135,
+      "web": "primary"
+    }
+  ]
+}

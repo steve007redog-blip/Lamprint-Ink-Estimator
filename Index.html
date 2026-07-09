@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Spec Ink Estimator</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    .row { display: flex; gap: 20px; align-items: flex-start; }
+    .col { flex: 1; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 4px 6px; font-size: 13px; }
+    th { background: #f0f0f0; }
+    input[type="text"], input[type="number"], select { width: 100%; padding: 4px; }
+    h2 { margin-top: 0; }
+    .unitBox { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    .btnRow { margin-top: 10px; }
+    .smallBtn { margin-left: 6px; padding: 2px 6px; font-size: 12px; }
+    #editModeBanner { background: #ffe9a8; padding: 8px; margin-bottom: 10px; border: 1px solid #e0c46c; }
+  </style>
+</head>
+
+<body>
+  <h1>Job Spec Ink Estimator (Supervisor View)</h1>
+
+  <div id="editModeBanner" style="display:none;">
+    <strong>Editing Job:</strong> <span id="editModeJobName"></span>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <h2>Job Lookup</h2>
+
+      <!-- NEW TEMPLATE DROPDOWN -->
+      <label>Select Template</label>
+      <select id="templateDropdown">
+        <option value="">-- Select Template --</option>
+      </select>
+
+      <button id="loadTemplateBtn" style="margin-top:6px;">Load Template</button>
+
+      <div id="jobInfo" style="margin-top: 15px;"></div>
+
+      <h3>Materials</h3>
+      <div id="materialsInfo"></div>
+
+      <h3>Press Info</h3>
+      <div id="pressInfo"></div>
+
+      <h3>Cylinders</h3>
+      <div id="cylindersTable"></div>
+    </div>
+
+    <div class="col">
+      <h2>Ink Estimation</h2>
+
+      <label>Kilos of wrap ordered</label>
+      <input type="number" id="wrapKgInput" min="0" step="1">
+
+      <label style="display:block;margin-top:6px;">
+        <input type="checkbox" id="safetyMarginCheckbox"> Add 10% safety margin
+      </label>
+
+      <button id="calcInkBtn" style="margin-top:8px;">Calculate Ink</button>
+
+      <div id="inkTable" style="margin-top:15px;"></div>
+      <div id="totalsInfo" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>Create / Edit Job Spec</h2>
+
+  <div class="row">
+    <div class="col">
+
+      <label>Product Code</label>
+      <input type="text" id="newProductCode">
+
+      <label>Customer</label>
+      <input type="text" id="newCustomer">
+
+      <label>Job Name</label>
+      <input type="text" id="newJobName">
+
+      <h3>Materials</h3>
+
+      <label>Print Type</label>
+      <select id="printTypeSelect">
+        <option value="SURFACE">Surface Print</option>
+        <option value="LAMINATE">Laminate Print</option>
+      </select>
+
+      <br><br>
+
+      <label>Primary Material</label>
+      <select id="primaryMaterialSelect"></select>
+
+      <label>Primary Micron</label>
+      <input type="number" id="primaryMicron" readonly>
+
+      <label>Primary Width (mm)</label>
+      <select id="primaryWidthSelect"></select>
+
+      <label>Primary m/kg</label>
+      <input type="number" id="primaryMPerKg" readonly>
+
+      <br><br>
+
+      <div id="secondaryMaterialSection">
+        <label>Secondary Material</label>
+        <select id="secondaryMaterialSelect"></select>
+
+        <label>Secondary Micron</label>
+        <input type="number" id="secondaryMicron" readonly>
+
+        <label>Secondary Width (mm)</label>
+        <select id="secondaryWidthSelect"></select>
+
+        <label>Secondary m/kg</label>
+        <input type="number" id="secondaryMPerKg" readonly>
+      </div>
+
+      <h3>Add Units</h3>
+      <div id="unitsList"></div>
+
+      <button id="addUnitBtn">Add Unit</button>
+
+      <div id="jobActions" class="btnRow">
+        <button id="saveNewJobBtn">Save New Job</button>
+        <button id="exportNewJobBtn">Export Job Spec</button>
+      </div>
+
+      <h3>Import Job Specs</h3>
+      <input type="file" id="importJobSpecsInput">
+
+    </div>
+  </div>
+
+  <!-- Dummy hidden template elements to prevent JS errors -->
+  <div style="display:none;">
+    <button id="saveTemplateBtn"></button>
+    <select id="templateSelect"></select>
+    <button id="createFromTemplateBtn"></button>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

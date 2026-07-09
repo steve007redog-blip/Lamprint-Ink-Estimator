@@ -1,0 +1,74 @@
+[
+  {
+    "id": "rlclearbopp-20-665",
+    "material": "RL Clear BOPP",
+    "micron": 20,
+    "widths": [665],
+    "mPerKg": 35,
+    "notes": "Whittakers Peanut Slab primary web"
+  },
+  {
+    "id": "metbopp-18-665",
+    "material": "Met BOPP",
+    "micron": 18,
+    "widths": [665],
+    "mPerKg": 35,
+    "notes": "Whittakers Peanut Slab secondary web"
+  },
+  {
+    "id": "metbopp-28-720",
+    "material": "Met BOPP",
+    "micron": 28,
+    "widths": [720],
+    "mPerKg": 35,
+    "notes": "Tasti Fibre One primary web"
+  },
+  {
+    "id": "pet-12",
+    "material": "PET",
+    "micron": 12,
+    "widths": [],
+    "mPerKg": 35,
+    "notes": "General PET film"
+  },
+  {
+    "id": "mattbopp-20",
+    "material": "Matt BOPP",
+    "micron": 18,
+    "widths": [717],
+    "mPerKg": 35,
+    "notes": "General matte BOPP film"
+  },
+  {
+    "id": "clearbopp-25-675",
+    "material": "Clear BOPP",
+    "micron": 25,
+    "widths": [675],
+    "mPerKg": 35,
+    "notes": "Mondelez Sharepack"
+  },
+  {
+    "id": "metbopp-28-665",
+    "material": "Met BOPP",
+    "micron": 28,
+    "widths": [665],
+    "mPerKg": 35,
+    "notes": "General metallised BOPP film"
+  },
+  {
+    "id": "metbopp-25-717",
+    "material": "Met BOPP PCR",
+    "micron": 25,
+    "widths": [717],
+    "mPerKg": 35,
+    "notes": "General metallised BOPP film"
+  },
+  {
+    "id": "metbopp-28-695",
+    "material": "Met BOPP",
+    "micron": 28,
+    "widths": [695],
+    "mPerKg": 35,
+    "notes": "General metallised BOPP film"
+  }
+]

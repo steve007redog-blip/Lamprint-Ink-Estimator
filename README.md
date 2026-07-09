@@ -1,1 +1,1 @@
-ink estimate
+Lamprint ink estimate app

@@ -101,5 +101,7 @@
   { "code": "ZV108592", "name": "Cadbury Purple" },
   { "code": "ZV108673", "name": "PMS483 Brown" },
   { "code": "ZV108843", "name": "Alfalam Oat SP Green" },
-  { "code": "ZV108763", "name": "PMS3165 Green" }
+  { "code": "ZV108763", "name": "PMS3165 Green" },
+  { "code": "ZV108899", "name": "PMS116 Yellow" },
+  { "code": "ZV109046", "name": "Flake Pro Yellow" }
 ]

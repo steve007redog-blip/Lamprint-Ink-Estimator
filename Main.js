@@ -13,6 +13,9 @@ let jobsDB = {
 let currentJob = null;
 let currentJobId = null;
 
+// NEW: Track which template is currently loaded
+let currentTemplateId = null;
+
 const FALLBACK_WIDTH = 665;
 
 // ======================================================
@@ -79,6 +82,9 @@ document.getElementById("loadTemplateBtn").addEventListener("click", () => {
 
   const tpl = jobsDB.templates.find(t => t.id === tplId);
   if (!tpl) return alert("Template not found.");
+
+  // NEW: Track which template is loaded
+  currentTemplateId = tpl.id;
 
   const job = JSON.parse(JSON.stringify(tpl));
   job.id = "job-" + Date.now();
@@ -219,7 +225,6 @@ function renderJobInfo(job) {
   html += `</table>`;
   document.getElementById("cylindersTable").innerHTML = html;
 }
-
 // ======================================================
 // ENTER EDIT MODE
 // ======================================================
@@ -381,6 +386,7 @@ function populateInkDropdown(selectEl, inkField) {
     inkField.value = inkObj ? inkObj.name : "";
   };
 }
+
 // ======================================================
 // BUILD JOB FROM UI (WITH VALIDATION + SAFE DEFAULTS)
 // ======================================================
@@ -445,7 +451,7 @@ function buildJobFromUI() {
 
   return {
     id: currentJobId || ("job-" + Date.now()),
-    templateId: currentJob ? currentJob.templateId : null,
+    templateId: currentTemplateId || null,
 
     productCode,
     customer,
@@ -479,7 +485,6 @@ function buildJobFromUI() {
     units
   };
 }
-
 // ======================================================
 // SAVE NEW JOB OR SAVE EDITED JOB
 // ======================================================
@@ -505,7 +510,7 @@ document.getElementById("saveNewJobBtn").addEventListener("click", () => {
 });
 
 // ======================================================
-// SAVE AS TEMPLATE (OVERWRITE LOGIC)
+// SAVE AS TEMPLATE (CORRECT OVERWRITE LOGIC)
 // ======================================================
 
 function saveAsTemplate() {
@@ -517,10 +522,12 @@ function saveAsTemplate() {
 
   let tplIndex = -1;
 
-  if (job.templateId) {
-    tplIndex = jobsDB.templates.findIndex(t => t.id === job.templateId);
+  // If a template is currently loaded, overwrite it
+  if (currentTemplateId) {
+    tplIndex = jobsDB.templates.findIndex(t => t.id === currentTemplateId);
   }
 
+  // If no template loaded, try matching by jobName
   if (tplIndex === -1) {
     tplIndex = jobsDB.templates.findIndex(t =>
       (t.name && t.name === job.jobName) ||
@@ -529,7 +536,7 @@ function saveAsTemplate() {
   }
 
   const tpl = JSON.parse(JSON.stringify(job));
-  tpl.id = job.templateId || ("tpl-" + Date.now());
+  tpl.id = currentTemplateId || ("tpl-" + Date.now());
   tpl.name = tpl.jobName;
   tpl.templateId = null;
 
@@ -540,6 +547,9 @@ function saveAsTemplate() {
     jobsDB.templates.push(tpl);
     alert("Template saved.");
   }
+
+  // Update global tracker
+  currentTemplateId = tpl.id;
 
   saveJobsDB();
   populateTemplateDropdown();
@@ -580,6 +590,9 @@ function createJobFromTemplate(templateId) {
 
   jobsDB.jobs.push(job);
   saveJobsDB();
+
+  // IMPORTANT: Do NOT set currentTemplateId here
+  // This is a new job created FROM a template, not editing the template itself.
 
   loadJobIntoUI(job);
 }
@@ -624,10 +637,8 @@ document.getElementById("importJobSpecsInput").addEventListener("change", event 
       parsed.id = parsed.id || ("job-" + Date.now());
       parsed.templateId = parsed.templateId || null;
 
-      // Ensure arrays exist
       parsed.units = parsed.units || [];
 
-      // Materials safe defaults
       if (!parsed.materials) {
         parsed.materials = {
           primary: null,
@@ -636,6 +647,9 @@ document.getElementById("importJobSpecsInput").addEventListener("change", event 
       }
 
       alert("Job imported — please review fields before saving.");
+
+      // Reset template tracking when importing
+      currentTemplateId = null;
 
       loadJobIntoUI(parsed);
 
@@ -646,6 +660,7 @@ document.getElementById("importJobSpecsInput").addEventListener("change", event 
 
   reader.readAsText(file);
 });
+
 // ======================================================
 // CALCULATE INK USAGE
 // ======================================================

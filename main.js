@@ -32,7 +32,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
   loadJobsDB();
-  populateTemplateDropdown();   // NEW
+  populateTemplateDropdown();
 });
 
 // ======================================================
@@ -50,7 +50,7 @@ function saveJobsDB() {
 }
 
 // ======================================================
-// TEMPLATE DROPDOWN (NEW)
+// TEMPLATE DROPDOWN
 // ======================================================
 
 function populateTemplateDropdown() {
@@ -103,7 +103,6 @@ function populateMaterialDropdowns() {
   primarySel.addEventListener("change", () => fillMaterialFields("primary"));
   secondarySel.addEventListener("change", () => fillMaterialFields("secondary"));
 }
-
 // ======================================================
 // FILL MATERIAL FIELDS
 // ======================================================
@@ -231,7 +230,6 @@ function enterEditMode(job) {
   document.getElementById("saveNewJobBtn").textContent = "Save Edited Job";
   document.getElementById("exportNewJobBtn").textContent = "Export Edited Job";
 }
-
 // ======================================================
 // RENDER UNITS EDITOR
 // ======================================================
@@ -282,7 +280,6 @@ function renderUnitsEditor(units) {
     list.appendChild(div);
   });
 }
-
 // ======================================================
 // ADD UNIT UI
 // ======================================================
@@ -428,7 +425,6 @@ function buildJobFromUI() {
     units
   };
 }
-
 // ======================================================
 // SAVE NEW JOB OR SAVE EDITED JOB
 // ======================================================
@@ -451,9 +447,8 @@ document.getElementById("saveNewJobBtn").addEventListener("click", () => {
 
   saveJobsDB();
 });
-
 // ======================================================
-// SAVE AS TEMPLATE
+// SAVE AS TEMPLATE (WITH OVERWRITE)
 // ======================================================
 
 function saveAsTemplate() {
@@ -464,76 +459,20 @@ function saveAsTemplate() {
 
   const tpl = JSON.parse(JSON.stringify(currentJob));
   tpl.id = "tpl-" + Date.now();
-  tpl.name = tpl.jobName;
+  tpl.name = tpl.jobName.trim();
 
-  jobsDB.templates.push(tpl);
+  const existingIndex = jobsDB.templates.findIndex(t => t.name.trim() === tpl.name);
+
+  if (existingIndex !== -1) {
+    jobsDB.templates[existingIndex] = tpl;
+  } else {
+    jobsDB.templates.push(tpl);
+  }
+
   saveJobsDB();
-
-  populateTemplateDropdown(); // refresh dropdown
+  populateTemplateDropdown();
   alert("Template saved.");
 }
-
-const tplBtn = document.createElement("button");
-tplBtn.textContent = "Save as Template";
-tplBtn.className = "smallBtn";
-tplBtn.style.marginLeft = "10px";
-tplBtn.addEventListener("click", saveAsTemplate);
-document.getElementById("jobActions").appendChild(tplBtn);
-
-// ======================================================
-// CREATE JOB FROM TEMPLATE
-// ======================================================
-
-document.getElementById("createFromTemplateBtn").addEventListener("click", () => {
-  const tplId = document.getElementById("templateSelect").value;
-  if (!tplId) return alert("Select a template first.");
-
-  createJobFromTemplate(tplId);
-});
-
-function createJobFromTemplate(templateId) {
-  const tpl = jobsDB.templates.find(t => t.id === templateId);
-  if (!tpl) {
-    alert("Template not found.");
-    return;
-  }
-
-  const job = JSON.parse(JSON.stringify(tpl));
-  job.id = "job-" + Date.now();
-  job.productCode = "";
-  job.customer = "";
-  job.jobName = tpl.name + " (new job)";
-  job.templateId = tpl.id;
-
-  jobsDB.jobs.push(job);
-  saveJobsDB();
-
-  loadJobIntoUI(job);
-}
-// ======================================================
-// EXPORT CURRENT JOB
-// ======================================================
-
-function exportCurrentJob() {
-  if (!currentJob) {
-    alert("Load or create a job first before exporting.");
-    return;
-  }
-
-  const blob = new Blob([JSON.stringify(currentJob, null, 2)], {
-    type: "application/json"
-  });
-
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${currentJob.productCode || "job"}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-document.getElementById("exportNewJobBtn").addEventListener("click", exportCurrentJob);
-
 // ======================================================
 // IMPORT JOB
 // ======================================================
@@ -569,9 +508,82 @@ document.getElementById("importJobSpecsInput").addEventListener("change", event 
 
   reader.readAsText(file);
 });
+// ======================================================
+// EXPORT CURRENT JOB
+// ======================================================
+
+function exportCurrentJob() {
+  if (!currentJob) {
+    alert("Load or create a job first before exporting.");
+    return;
+  }
+
+  const blob = new Blob([JSON.stringify(currentJob, null, 2)], {
+    type: "application/json"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${currentJob.productCode || "job"}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("exportNewJobBtn").addEventListener("click", exportCurrentJob);
+// ======================================================
+// CREATE JOB FROM TEMPLATE
+// ======================================================
+
+document.getElementById("createFromTemplateBtn").addEventListener("click", () => {
+  const tplId = document.getElementById("templateSelect").value;
+  if (!tplId) return alert("Select a template first.");
+
+  createJobFromTemplate(tplId);
+});
+
+function createJobFromTemplate(templateId) {
+  const tpl = jobsDB.templates.find(t => t.id === templateId);
+  if (!tpl) {
+    alert("Template not found.");
+    return;
+  }
+
+  const job = JSON.parse(JSON.stringify(tpl));
+  job.id = "job-" + Date.now();
+  job.productCode = "";
+  job.customer = "";
+  job.jobName = tpl.name + " (new job)";
+  job.templateId = tpl.id;
+
+  jobsDB.jobs.push(job);
+  saveJobsDB();
+
+  loadJobIntoUI(job);
+}
+// ======================================================
+// SAVE AS TEMPLATE BUTTON
+// ======================================================
+
+const tplBtn = document.createElement("button");
+tplBtn.textContent = "Save as Template";
+tplBtn.className = "smallBtn";
+tplBtn.style.marginLeft = "10px";
+tplBtn.addEventListener("click", saveAsTemplate);
+document.getElementById("jobActions").appendChild(tplBtn);
 
 // ======================================================
-// CALCULATE INK USAGE
+// EXPORT CURRENT JOB (already defined earlier)
+// ======================================================
+// (exportCurrentJob and its event listener were included in earlier parts)
+
+// ======================================================
+// IMPORT JOB (already defined earlier)
+// ======================================================
+// (importJobSpecsInput listener was included in earlier parts)
+
+// ======================================================
+// CALCULATE INK
 // ======================================================
 
 function calculateInk() {
@@ -612,76 +624,49 @@ function calculateInk() {
       return;
     }
 
-    const meters = finalKilos * mPerKg;
-    const inkKg = meters * factor;
+    const metres = finalKilos * mPerKg;
+    const inkKg = (metres / 1000) * factor;
 
     results.push({
       unit: unit.number,
       inkName: unit.inkName,
       inkCode: unit.inkCode,
+      cylinder: unit.cylinder,
       web: unit.web,
-      meters,
+      factor,
+      metres,
       inkKg
     });
   });
 
-  renderInkResults(results, finalKilos);
-}
-
-// ======================================================
-// RENDER INK RESULTS
-// ======================================================
-
-function renderInkResults(results, finalKilos) {
-  const tableDiv = document.getElementById("inkTable");
-  const totalsDiv = document.getElementById("totalsInfo");
-
-  if (!results.length) {
-    tableDiv.innerHTML = "<p>No ink usage calculated.</p>";
-    totalsDiv.innerHTML = "";
-    return;
-  }
-
-  let html = `
-    <table>
-      <tr>
-        <th>Unit</th>
-        <th>Ink</th>
-        <th>Code</th>
-        <th>Web</th>
-        <th>Meters</th>
-        <th>Ink (kg)</th>
-      </tr>
-  `;
-
-  let totalInk = 0;
+  let html = `<table>
+    <tr>
+      <th>Unit</th>
+      <th>Ink</th>
+      <th>Code</th>
+      <th>Cylinder</th>
+      <th>Web</th>
+      <th>Factor</th>
+      <th>Metres</th>
+      <th>Ink (kg)</th>
+    </tr>`;
 
   results.forEach(r => {
-    totalInk += r.inkKg;
-
     html += `
       <tr>
         <td>${r.unit}</td>
         <td>${r.inkName}</td>
         <td>${r.inkCode}</td>
+        <td>${r.cylinder}</td>
         <td>${r.web}</td>
-        <td>${r.meters.toFixed(0)}</td>
+        <td>${r.factor}</td>
+        <td>${r.metres.toFixed(2)}</td>
         <td>${r.inkKg.toFixed(3)}</td>
-      </tr>
-    `;
+      </tr>`;
   });
 
   html += `</table>`;
-  tableDiv.innerHTML = html;
-
-  totalsDiv.innerHTML = `
-    <strong>Kilos used (with margin):</strong> ${finalKilos.toFixed(2)} kg<br>
-    <strong>Total Ink:</strong> ${totalInk.toFixed(3)} kg
-  `;
+  document.getElementById("inkResults").innerHTML = html;
 }
 
-// ======================================================
-// FORCE‑ATTACH INK CALC BUTTON LISTENER
-// ======================================================
-
-document.getElementById("calcInkBtn").addEventListener("click", calculateInk);
+document.getElementById("calculateInkBtn").addEventListener("click", calculateInk);

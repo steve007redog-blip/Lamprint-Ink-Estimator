@@ -13,7 +13,7 @@ let jobsDB = {
 let currentJob = null;
 let currentJobId = null;
 
-// NEW: Track which template is currently loaded
+// Track which template is currently loaded
 let currentTemplateId = null;
 
 const FALLBACK_WIDTH = 665;
@@ -83,7 +83,7 @@ document.getElementById("loadTemplateBtn").addEventListener("click", () => {
   const tpl = jobsDB.templates.find(t => t.id === tplId);
   if (!tpl) return alert("Template not found.");
 
-  // NEW: Track which template is loaded
+  // Track which template is loaded
   currentTemplateId = tpl.id;
 
   const job = JSON.parse(JSON.stringify(tpl));
@@ -189,7 +189,7 @@ function loadJobIntoUI(job) {
 }
 
 // ======================================================
-// RENDER JOB INFO (SAFE DEFAULTS)
+// RENDER JOB INFO
 // ======================================================
 
 function renderJobInfo(job) {
@@ -225,6 +225,7 @@ function renderJobInfo(job) {
   html += `</table>`;
   document.getElementById("cylindersTable").innerHTML = html;
 }
+
 // ======================================================
 // ENTER EDIT MODE
 // ======================================================
@@ -256,7 +257,6 @@ function enterEditMode(job) {
   document.getElementById("saveNewJobBtn").textContent = "Save Edited Job";
   document.getElementById("exportNewJobBtn").textContent = "Export Edited Job";
 }
-
 // ======================================================
 // RENDER UNITS EDITOR
 // ======================================================
@@ -309,64 +309,6 @@ function renderUnitsEditor(units) {
 }
 
 // ======================================================
-// ADD UNIT UI
-// ======================================================
-
-document.getElementById("addUnitBtn").addEventListener("click", () => {
-  const div = document.createElement("div");
-  div.className = "unitBox";
-
-  div.innerHTML = `
-    <label>Unit Number</label>
-    <input type="number" class="unitNumber">
-
-    <label>Ink Code</label>
-    <select class="unitInkCode"></select>
-
-    <label>Ink (auto-filled)</label>
-    <input type="text" class="unitInk" readonly>
-
-    <label>Cylinder Code</label>
-    <input type="text" class="unitCylinder">
-
-    <label>Factor</label>
-    <input type="number" step="0.01" class="unitFactor">
-
-    <label>Web</label>
-    <select class="unitWeb">
-      <option value="primary">Primary</option>
-      <option value="secondary">Secondary</option>
-    </select>
-
-    <div class="btnRow">
-      <button class="smallBtn unitClearBtn">Clear</button>
-      <button class="smallBtn unitDeleteBtn">Delete</button>
-    </div>
-  `;
-
-  populateInkDropdown(div.querySelector(".unitInkCode"), div.querySelector(".unitInk"));
-
-  div.querySelector(".unitClearBtn").addEventListener("click", () => {
-    div.querySelector(".unitNumber").value = "";
-    div.querySelector(".unitInkCode").value = "";
-    div.querySelector(".unitInk").value = "";
-    div.querySelector(".unitCylinder").value = "";
-    div.querySelector(".unitFactor").value = "";
-    div.querySelector(".unitWeb").value = "primary";
-  });
-
-  div.querySelector(".unitDeleteBtn").addEventListener("click", () => {
-    div.remove();
-  });
-
-  document.getElementById("unitsList").appendChild(div);
-
-  if (document.getElementById("printTypeSelect").value === "SURFACE") {
-    div.querySelector(".unitWeb").querySelector("option[value='secondary']").disabled = true;
-  }
-});
-
-// ======================================================
 // POPULATE INK DROPDOWN
 // ======================================================
 
@@ -388,7 +330,7 @@ function populateInkDropdown(selectEl, inkField) {
 }
 
 // ======================================================
-// BUILD JOB FROM UI (WITH VALIDATION + SAFE DEFAULTS)
+// BUILD JOB FROM UI
 // ======================================================
 
 function buildJobFromUI() {
@@ -420,10 +362,6 @@ function buildJobFromUI() {
     units.push({ number, inkCode, inkName, cylinder, factor, web });
   });
 
-  // ======================================================
-  // VALIDATION (SOFT STOP ALERT)
-  // ======================================================
-
   const missing =
     !productCode ||
     !customer ||
@@ -444,10 +382,6 @@ function buildJobFromUI() {
     alert("Job is incomplete — please fill missing fields before saving.");
     return null;
   }
-
-  // ======================================================
-  // BUILD JOB OBJECT
-  // ======================================================
 
   return {
     id: currentJobId || ("job-" + Date.now()),
@@ -485,13 +419,14 @@ function buildJobFromUI() {
     units
   };
 }
+
 // ======================================================
-// SAVE NEW JOB OR SAVE EDITED JOB
+// SAVE NEW JOB
 // ======================================================
 
 document.getElementById("saveNewJobBtn").addEventListener("click", () => {
   const job = buildJobFromUI();
-  if (!job) return; // validation failed
+  if (!job) return;
 
   const idx = jobsDB.jobs.findIndex(j => j.id === job.id);
 
@@ -510,29 +445,21 @@ document.getElementById("saveNewJobBtn").addEventListener("click", () => {
 });
 
 // ======================================================
-// SAVE AS TEMPLATE (CORRECT OVERWRITE LOGIC)
+// SAVE AS TEMPLATE — FIXED OVERWRITE LOGIC
 // ======================================================
 
 function saveAsTemplate() {
   const job = buildJobFromUI();
-  if (!job) return; // validation failed
+  if (!job) return;
 
   currentJob = job;
   currentJobId = job.id;
 
   let tplIndex = -1;
 
-  // If a template is currently loaded, overwrite it
+  // Overwrite only if a template is currently loaded
   if (currentTemplateId) {
     tplIndex = jobsDB.templates.findIndex(t => t.id === currentTemplateId);
-  }
-
-  // If no template loaded, try matching by jobName
-  if (tplIndex === -1) {
-    tplIndex = jobsDB.templates.findIndex(t =>
-      (t.name && t.name === job.jobName) ||
-      (t.jobName && t.jobName === job.jobName)
-    );
   }
 
   const tpl = JSON.parse(JSON.stringify(job));
@@ -548,21 +475,18 @@ function saveAsTemplate() {
     alert("Template saved.");
   }
 
-  // Update global tracker
   currentTemplateId = tpl.id;
 
   saveJobsDB();
   populateTemplateDropdown();
 }
 
-// Add Save As Template button
 const tplBtn = document.createElement("button");
 tplBtn.textContent = "Save as Template";
 tplBtn.className = "smallBtn";
 tplBtn.style.marginLeft = "10px";
 tplBtn.addEventListener("click", saveAsTemplate);
 document.getElementById("jobActions").appendChild(tplBtn);
-
 // ======================================================
 // CREATE JOB FROM TEMPLATE
 // ======================================================
@@ -591,9 +515,7 @@ function createJobFromTemplate(templateId) {
   jobsDB.jobs.push(job);
   saveJobsDB();
 
-  // IMPORTANT: Do NOT set currentTemplateId here
-  // This is a new job created FROM a template, not editing the template itself.
-
+  // Do NOT set currentTemplateId here
   loadJobIntoUI(job);
 }
 
@@ -636,7 +558,6 @@ document.getElementById("importJobSpecsInput").addEventListener("change", event 
 
       parsed.id = parsed.id || ("job-" + Date.now());
       parsed.templateId = parsed.templateId || null;
-
       parsed.units = parsed.units || [];
 
       if (!parsed.materials) {

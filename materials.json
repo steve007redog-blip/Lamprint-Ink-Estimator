@@ -34,7 +34,7 @@
   {
     "id": "mattbopp-20",
     "material": "Matt BOPP",
-    "micron": 18,
+    "micron": 20,
     "widths": [717],
     "mPerKg": 35,
     "notes": "General matte BOPP film"
@@ -64,11 +64,20 @@
     "notes": "General metallised BOPP film"
   },
   {
-    "id": "metbopp-28-695",
-    "material": "Met BOPP",
-    "micron": 28,
-    "widths": [695],
+    "id": "A40-40-700",
+    "material": "A40",
+    "micron": 40,
+    "widths": [700],
     "mPerKg": 35,
-    "notes": "General metallised BOPP film"
+    "notes": "Whittakers Sharepack Primary Web"
+  },
+{
+    "id": "MNM18-18-700",
+    "material": "MNM18",
+    "micron": 18,
+    "widths": [700],
+    "mPerKg": 35,
+    "notes": "Whittakers Sharepack Secondary Web"
   }
+
 ]

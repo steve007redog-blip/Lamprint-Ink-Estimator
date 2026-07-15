@@ -78,6 +78,14 @@
     "widths": [700],
     "mPerKg": 35,
     "notes": "Whittakers Sharepack Secondary Web"
-  }
+  },
+  {
+  "id": "clearbopp-25-755",
+  "material": "Clear BOPP",
+  "micron": 25,
+  "widths": [755],
+  "mPerKg": 35,
+  "notes": "Cadbury Crunchie Clear BOPP"
+}
 
 ]

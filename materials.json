@@ -86,6 +86,13 @@
   "widths": [755],
   "mPerKg": 35,
   "notes": "Cadbury Crunchie Clear BOPP"
+},
+ {
+  "id": "metbopp-28-695",
+  "material": "Met BOPP",
+  "micron": 28,
+  "widths": [695],
+  "mPerKg": 35,
+  "notes": "General metallised BOPP film"
 }
-
 ]

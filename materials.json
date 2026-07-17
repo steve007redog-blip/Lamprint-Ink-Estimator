@@ -71,7 +71,7 @@
     "mPerKg": 35,
     "notes": "Whittakers Sharepack Primary Web"
   },
-{
+  {
     "id": "MNM18-18-700",
     "material": "MNM18",
     "micron": 18,
@@ -80,19 +80,102 @@
     "notes": "Whittakers Sharepack Secondary Web"
   },
   {
-  "id": "clearbopp-25-755",
-  "material": "Clear BOPP",
-  "micron": 25,
-  "widths": [755],
-  "mPerKg": 35,
-  "notes": "Cadbury Crunchie Clear BOPP"
-},
- {
-  "id": "metbopp-28-695",
-  "material": "Met BOPP",
-  "micron": 28,
-  "widths": [695],
-  "mPerKg": 35,
-  "notes": "General metallised BOPP film"
-}
+    "id": "clearbopp-25-755",
+    "material": "Clear BOPP",
+    "micron": 25,
+    "widths": [755],
+    "mPerKg": 35,
+    "notes": "Cadbury Crunchie Clear BOPP"
+  },
+  {
+    "id": "metbopp-28-695",
+    "material": "Met BOPP",
+    "micron": 28,
+    "widths": [695],
+    "mPerKg": 35,
+    "notes": "General metallised BOPP film"
+  },
+
+  /* NEW MATERIALS BELOW */
+
+  {
+    "id": "clearcpp-40-565",
+    "material": "Clear CPP",
+    "micron": 40,
+    "widths": [565],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "clearbopp-20-565",
+    "material": "Clear BOPP",
+    "micron": 20,
+    "widths": [565],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "clearbopp-40-410",
+    "material": "Clear BOPP",
+    "micron": 40,
+    "widths": [410],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "mattbopp-20-410",
+    "material": "Matt BOPP",
+    "micron": 20,
+    "widths": [410],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "rlclearbopp-20-720",
+    "material": "RL Clear BOPP",
+    "micron": 20,
+    "widths": [720],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "metbopp-28-600",
+    "material": "Met BOPP",
+    "micron": 28,
+    "widths": [600],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "metbopp-25-665",
+    "material": "Met BOPP PCR",
+    "micron": 25,
+    "widths": [665],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "pct-18-495",
+    "material": "PCT",
+    "micron": 18,
+    "widths": [495],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "ldpe-50-495",
+    "material": "LDPE",
+    "micron": 50,
+    "widths": [495],
+    "mPerKg": 35,
+    "notes": ""
+  },
+  {
+    "id": "metbopp18-ldpe40-585",
+    "material": "Met BOPP / LDPE Laminate",
+    "micron": "18/40",
+    "widths": [585],
+    "mPerKg": 35,
+    "notes": "Laminate structure"
+  }
 ]

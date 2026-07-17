@@ -95,9 +95,6 @@
     "mPerKg": 35,
     "notes": "General metallised BOPP film"
   },
-
-  /* NEW MATERIALS BELOW */
-
   {
     "id": "clearcpp-40-565",
     "material": "Clear CPP",
